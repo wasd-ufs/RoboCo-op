@@ -165,7 +165,6 @@ public class AudioManager : MonoBehaviour
         _audioSourceBg.clip = settingBaseAudio.Clip;
         _audioSourceBg.loop = settingBaseAudio.IsLoop;
         _audioMixer.SetFloat("MusicVolume", !PlayerPrefs.HasKey("MusicVolumeSlider") ? decibel : PlayerPrefs.GetFloat("MusicVolumeSlider"));
-        //_audioMixer.SetFloat("MusicPitch", settingBaseAudio.Pitch);
         _audioSourceBg.Play();
     }
     
