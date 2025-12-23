@@ -1,4 +1,4 @@
-# MankinDroid
+# RoboCo-op
 
 ## Grupo da WASD na Game Jam Plus 2025/26
 Gabriela Mundim Ferrari Diniz  
