@@ -8,6 +8,7 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
     [SerializeField] private Animator _animacaoTransicao;
     [SerializeField] private Animator _animacaoTransicaoCenaNoTempo;
     [SerializeField] private float _tempoTransicao;
+    [SerializeField] private float _tempoTransicaoMundos;
     
     private void Awake()
     {
@@ -19,24 +20,34 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
         Instancia = this;
     }
     
-    /**
-     * Responsavel por iniciar uma animacao de transicao de cena
-     */
-    public static void IniciarTransicao(string nomeAnimacao, int numeroCena,bool transicaoCenaComun = true)
+    /// <summary>
+    /// Responsavel por iniciar uma animacao de transicao de cena
+    /// </summary>
+    /// <param name="nomeAnimacao"></param>
+    /// <param name="numeroCena"></param>
+    public static void IniciarTransicao(string nomeAnimacao, int numeroCena)
     {
-        if (Instancia == null)
-        {
-            Debug.LogError("IniciaAnimacaoTransicaoCena não está na cena. Não foi possível iniciar a transição.");
-            return;
-        }
-        
-        Instancia.StartCoroutine(Instancia.Transition(nomeAnimacao, numeroCena,transicaoCenaComun));
+        Instancia.StartCoroutine(Instancia.Transition(nomeAnimacao, numeroCena));
+    }
+
+
+    /// <summary>
+    /// Responsavel por iniciar uma animacao de transicao de mundos
+    /// </summary>
+    /// <param name="nomeAnimacao"></param>
+    /// <param name="mundoId"></param>
+    public static void IniciarTransicaoEntreMundos(string nomeAnimacao,TipoMundo mundoId)
+    {
+        Instancia.StartCoroutine(Instancia.TransitionMundos(nomeAnimacao, mundoId));
     }
     
-    /**
-     * Corrotina para executar a animacao e atrasar o carregamento da fase
-     */
-    private IEnumerator Transition(string nomeAnimacao, int numeroCena,bool isTransicaoComun)
+    /// <summary>
+    /// Corrotina para executar a animacao e atrasar o carregamento da fase
+    /// </summary>
+    /// <param name="nomeAnimacao"></param>
+    /// <param name="numeroCena"></param>
+    /// <returns></returns>
+    private IEnumerator Transition(string nomeAnimacao, int numeroCena)
     {
         if (_animacaoTransicao == null && _animacaoTransicaoCenaNoTempo == null)
         {
@@ -45,13 +56,25 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
         }
         
         int triggerHash = Animator.StringToHash(nomeAnimacao);
-        
-        if (isTransicaoComun)
-        {
-            _animacaoTransicao.SetTrigger(triggerHash);    
-        }
-        _animacaoTransicaoCenaNoTempo.SetTrigger(nomeAnimacao);
+        _animacaoTransicao.SetTrigger(triggerHash);    
         yield return new WaitForSeconds(_tempoTransicao);
         CarregaCena.CarregarCena(numeroCena);
+    }
+    
+    /**
+  * Corrotina para executar a animacao e atrasar o carregamento da fase
+  */
+    private IEnumerator TransitionMundos(string nomeAnimacao, TipoMundo mundoId)
+    {
+        if (_animacaoTransicaoCenaNoTempo == null)
+        {
+            Debug.LogError("Animator de transição não atribuído!");
+            yield break;
+        }
+        
+        int triggerHash = Animator.StringToHash(nomeAnimacao);
+        _animacaoTransicaoCenaNoTempo.SetTrigger(triggerHash);
+        GameManagerr.instance.TrocarMundo(mundoId);
+        yield return new WaitForSeconds(_tempoTransicaoMundos);
     }
 }
