@@ -10,7 +10,7 @@ public class GerenciadorMenu : MonoBehaviour
      */
     public void PlayGame(int numeroCena)
     {
-        IniciaAnimacaoTransicaoCena.IniciarTransicao("Start", numeroCena);
+        IniciaAnimacaoTransicaoCena.Instancia.IniciarTransicao("Start", numeroCena);
     }
 
     public void TelaConfiguracoes()

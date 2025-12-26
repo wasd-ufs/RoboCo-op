@@ -2,6 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement; 
+
+/// <summary>
+/// Controla a troca de cenas e a suas transicoes
+/// </summary>
 public class IniciaAnimacaoTransicaoCena : MonoBehaviour
 {
     public static IniciaAnimacaoTransicaoCena Instancia { get; private set; }
@@ -25,7 +29,9 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
     /// </summary>
     /// <param name="nomeAnimacao"></param>
     /// <param name="numeroCena"></param>
-    public static void IniciarTransicao(string nomeAnimacao, int numeroCena)
+    /// <return>void</return>
+    /// <author>Wallisson de jesus</author>
+    public void IniciarTransicao(string nomeAnimacao, int numeroCena)
     {
         Instancia.StartCoroutine(Instancia.Transition(nomeAnimacao, numeroCena));
     }
@@ -36,7 +42,9 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
     /// </summary>
     /// <param name="nomeAnimacao"></param>
     /// <param name="mundoId"></param>
-    public static void IniciarTransicaoEntreMundos(string nomeAnimacao,TipoMundo mundoId)
+    /// <return>void</return>
+    /// <author>Wallisson de jesus</author>
+    public void IniciarTransicaoEntreMundos(string nomeAnimacao,TipoMundo mundoId)
     {
         Instancia.StartCoroutine(Instancia.TransitionMundos(nomeAnimacao, mundoId));
     }
@@ -46,7 +54,8 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
     /// </summary>
     /// <param name="nomeAnimacao"></param>
     /// <param name="numeroCena"></param>
-    /// <returns></returns>
+    /// <returns>IEnumerator</returns>
+    /// <author>Wallisson de jesus</author>
     private IEnumerator Transition(string nomeAnimacao, int numeroCena)
     {
         if (_animacaoTransicao == null && _animacaoTransicaoCenaNoTempo == null)
@@ -61,9 +70,14 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
         CarregaCena.CarregarCena(numeroCena);
     }
     
-    /**
-  * Corrotina para executar a animacao e atrasar o carregamento da fase
-  */
+    
+    /// <summary>
+    /// Corrotina para executar a animacao e atrasar o carregamento do mundo
+    /// </summary>
+    /// <param name="nomeAnimacao"></param>
+    /// <param name="mundoId"></param>
+    /// <returns>IEnumerator</returns>
+    /// <author>Wallisson de jesus</author>
     private IEnumerator TransitionMundos(string nomeAnimacao, TipoMundo mundoId)
     {
         if (_animacaoTransicaoCenaNoTempo == null)
