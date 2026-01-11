@@ -163,6 +163,9 @@ MonoBehaviour:
   _jumpState: 1
   _inputMap: Player
   _inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  _dieClip: {fileID: 8300000, guid: da613034b143db74999189545187b6dd, type: 3}
+  _volume: 1
+  _pitch: 1
 --- !u!212 &4761004844558284493
 SpriteRenderer:
   m_ObjectHideFlags: 0

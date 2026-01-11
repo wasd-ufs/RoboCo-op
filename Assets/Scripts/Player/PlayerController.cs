@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
     private string _currentAnimation = "";
     private string _posfix;
     
+    [Header("Audio morte player")]
+    [SerializeField] private AudioClip _dieClip;
+    [SerializeField] private float _volume, _pitch;
+    
     private void OnEnable()
     {
         _inputActionAsset.FindActionMap(_inputMap).Enable();
@@ -113,23 +117,19 @@ public class PlayerController : MonoBehaviour
         _animator.CrossFade(animationName, crossfade);
     }
     
-        public void Die()
+    /// <summary>
+    /// Gerencia as acoes que irao acontecer na morte do player 
+    /// </summary>
+    public void Die()
     {
         // Desativa os controles de input
         _inputActionAsset.FindActionMap(_inputMap).Disable();
 
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.isKinematic = true;
-
-        StartCoroutine(DeathRoutine());
-    }
-
-    private IEnumerator DeathRoutine()
-    {
-        yield return new WaitForSeconds(2f); 
-
-        // Reinicia a cena atual
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        
+        int indexScene = SceneManager.GetActiveScene().buildIndex;
+        AudioManager.instance.PlayAudio(_dieClip,_volume,_pitch);
+        IniciaAnimacaoTransicaoCena.Instancia.IniciarTransicao("Start",indexScene,1.5f);
     }
 }
