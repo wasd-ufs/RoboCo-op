@@ -1,68 +1,60 @@
-using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerInteractor : MonoBehaviour
-{   
-    [SerializeField] private InputActionAsset _inputAction;
+{
+    [Header("References")]
+    [SerializeField] private MonoBehaviour inputSource;
+    private IPlayerInput input;
+
+    [Header("Interaction")]
+    [SerializeField] private float searchRadius = 1.5f;
     
-    [ReadOnly] [SerializeField] private InputAction _interactAction;
-    [SerializeField] private float _searchRadius;
-    
-    private string _inputMap; //Droid ou Human
-    
-    
-    void Awake()
+
+    private void Awake()
     {
-        var controller = GetComponent<PlayerController>();
-        _inputMap = controller.GetInputMapName();
-        _interactAction = _inputAction.FindAction(_inputMap+"/Interact");
+        input = inputSource as IPlayerInput;
+        if (input == null)
+        {
+            Debug.LogError("PlayerInteractor: inputSource não implementa IPlayerInput");
+            enabled = false;
+        }
     }
-    
-    private void OnEnable()
-    {
-        _inputAction.FindActionMap(_inputMap).Enable();
-    }
-    
-    private void OnDisable()
-    {
-        _inputAction.FindActionMap(_inputMap).Disable();
-    }
-    
+
     private void Update()
     {
-        if (_interactAction.WasPressedThisFrame())
+        if (input.Interact.JustPressed)
         {
-            IInteractable interactable = FindNearestObject<IInteractable>();
-            interactable?.Interact();
+            TryInteract();
         }
+    }
+
+    void TryInteract()
+    {
+        IInteractable interactable = FindNearestObject<IInteractable>();
+        interactable?.Interact();
     }
 
     public T FindNearestObject<T>() where T : IInteractable
     {
-        var objectsOfType = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<T>().ToList();
-        T nearestObject = default(T);
-        float nearestDistance = Mathf.Infinity;
+        var objectsOfType = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+            .OfType<T>();
 
-        foreach (T item in objectsOfType)
+        T nearest = default;
+        float minDistance = Mathf.Infinity;
+
+        foreach (var item in objectsOfType)
         {
-            var obj = item as MonoBehaviour;
-            
-            float distance = Vector2.Distance(transform.position, obj.transform.position);
-            if (distance < _searchRadius && distance < nearestDistance)
+            var mono = item as MonoBehaviour;
+            float distance = Vector2.Distance(transform.position, mono.transform.position);
+
+            if (distance <= searchRadius && distance < minDistance)
             {
-                nearestDistance = distance;
-                nearestObject = item;
+                minDistance = distance;
+                nearest = item;
             }
         }
-        
-        return nearestObject;
-    }
 
-    public void PrintHello()
-    {
-        Debug.Log("Hello");
+        return nearest;
     }
-    
 }

@@ -1,11 +1,26 @@
+using System;
 using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 public class PauseController : MonoBehaviour
-{
+{   
+    [Header("References")]
+    [SerializeField] private MonoBehaviour inputSource;
+    private IPlayerInput input;
+    
     [SerializeField] private Animator _animatorTelaConfiguracoes;
     private bool isPaused = false;
     public GameObject pauseMenu;
+
+    private void Awake()
+    {
+        input = inputSource as IPlayerInput;
+        if (input == null)
+        {
+            Debug.LogError("PlayerInteractor: inputSource não implementa IPlayerInput");
+            enabled = false;
+        }
+    }
 
     void Start()
     {
@@ -14,7 +29,7 @@ public class PauseController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (input.Pause.JustPressed)
         {
             if (isPaused)
             {
