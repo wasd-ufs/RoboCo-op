@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 
 public enum JumpState
@@ -15,95 +12,123 @@ public enum JumpState
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector] public bool isHoldingSomething = false;
-    [SerializeField] private float horizontalSpeed = 4;
-    
-    [SerializeField] private float jumpForce = 5;
+
+    [Header("References")]
+    [SerializeField] private InputHandler input;
+
+    [Header("Movement")]
+    [SerializeField] private float horizontalSpeed = 4f;
+    [SerializeField] private float jumpForce = 5f;
+
     [ReadOnly] [SerializeField] private JumpState _jumpState = JumpState.Grounded;
+
     private Rigidbody2D _rigidbody;
-    
-    
+    private Animator _animator;
+
     private bool _rightSide = false;
     private Vector2 _playerDirection;
-    
-    [Header("Droid or Human")]
-    [SerializeField] private string _inputMap; //Droid ou Human
-    
-    [Header("InputSystem_Actions")]
-    [SerializeField] private InputActionAsset _inputActionAsset;
-    private InputAction _moveInput;
-    private InputAction _jumpInput;
-    
-    private Animator _animator;
+
     private string _currentAnimation = "";
     private string _posfix;
-    
-    private void OnEnable()
-    {
-        _inputActionAsset.FindActionMap(_inputMap).Enable();
-    }
-    
-    private void OnDisable()
-    {
-        _inputActionAsset.FindActionMap(_inputMap).Disable();
-    }
-    
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _moveInput = _inputActionAsset.FindAction(_inputMap+"/Move");
-        _jumpInput = _inputActionAsset.FindAction(_inputMap+"/Jump");
         _animator = GetComponent<Animator>();
-        _posfix = this.gameObject.tag;
+        _posfix = gameObject.tag;
     }
 
-    void Start()
+    private void Start()
     {
-        ChangeAnimation("idle_"+_posfix);
+        ChangeAnimation("idle_" + _posfix);
     }
 
-    void Update()
+    private void Update()
     {
-        _playerDirection = _moveInput.ReadValue<Vector2>();
-        _rigidbody.linearVelocity = new Vector2(
-            _playerDirection.x * horizontalSpeed, 
-            _rigidbody.linearVelocity.y
-            );
-        
-        if (_jumpState == JumpState.Grounded)
-            ChangeAnimation(Mathf.Abs(_rigidbody.linearVelocity.x) > 0 ? "walking_"+_posfix : "idle_"+_posfix);
+        ReadInput();
+        HandleMovement();
+        HandleAnimation();
+        HandleActions();
+        HandleFlip();
+    }
 
-        if (_jumpInput.WasPressedThisFrame() && _jumpState == JumpState.Grounded)
+    // ===============================
+    // INPUT
+    // ===============================
+    void ReadInput()
+    {
+        _playerDirection = input.Move;
+    }
+
+    void HandleActions()
+    {
+        if (input.Jump.JustPressed && _jumpState == JumpState.Grounded)
             Jump();
-        
-        if (_playerDirection.x < 0 && !_rightSide || _playerDirection.x > 0 && _rightSide) 
-            TurnPlayer();
-        
     }
-    
-    private void OnCollisionEnter2D(Collision2D other)
+
+    // ===============================
+    // MOVEMENT
+    // ===============================
+    void HandleMovement()
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        _rigidbody.linearVelocity = new Vector2(
+            _playerDirection.x * horizontalSpeed,
+            _rigidbody.linearVelocity.y
+        );
+    }
+
+    // ===============================
+    // ANIMATION
+    // ===============================
+    void HandleAnimation()
+    {
+        if (_jumpState != JumpState.Grounded)
+            return;
+
+        bool isMoving = Mathf.Abs(_rigidbody.linearVelocity.x) > 0.01f;
+        ChangeAnimation(isMoving ? "walking_" + _posfix : "idle_" + _posfix);
+    }
+
+    // ===============================
+    // FLIP
+    // ===============================
+    void HandleFlip()
+    {
+        if (_playerDirection.x < 0 && !_rightSide ||
+            _playerDirection.x > 0 && _rightSide)
         {
-            _jumpState = JumpState.Grounded;
-            ChangeAnimation("idle_"+_posfix);
+            TurnPlayer();
         }
     }
-    
+
     private void TurnPlayer()
     {
         _rightSide = !_rightSide;
         transform.Rotate(0f, 180f, 0f);
     }
 
+    // ===============================
+    // JUMP
+    // ===============================
     private void Jump()
-    {   
+    {
         _jumpState = JumpState.Floating;
-        ChangeAnimation("jumping_"+_posfix);
-        _rigidbody.AddForce(new Vector2(0f, jumpForce));
+        ChangeAnimation("jumping_" + _posfix);
+        _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
-    public string GetInputMapName() => _inputMap;
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            _jumpState = JumpState.Grounded;
+            ChangeAnimation("idle_" + _posfix);
+        }
+    }
 
+    // ===============================
+    // ANIMATION CORE
+    // ===============================
     private void ChangeAnimation(string animationName, float crossfade = 0.2f)
     {
         if (_currentAnimation == animationName)
@@ -112,12 +137,13 @@ public class PlayerController : MonoBehaviour
         _currentAnimation = animationName;
         _animator.CrossFade(animationName, crossfade);
     }
-    
-        public void Die()
-    {
-        // Desativa os controles de input
-        _inputActionAsset.FindActionMap(_inputMap).Disable();
 
+    // ===============================
+    // DEATH
+    // ===============================
+    public void Die()
+    {
+        enabled = false;          // para o player
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.isKinematic = true;
 
@@ -126,10 +152,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DeathRoutine()
     {
-        yield return new WaitForSeconds(2f); 
-
-        // Reinicia a cena atual
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
