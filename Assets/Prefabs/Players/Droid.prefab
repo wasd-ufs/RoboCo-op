@@ -122,6 +122,8 @@ GameObject:
   - component: {fileID: 8215684638313821759}
   - component: {fileID: 1647295556952859884}
   - component: {fileID: 5945666717401259932}
+  - component: {fileID: 4496584655498686006}
+  - component: {fileID: 1983998233292342228}
   m_Layer: 6
   m_Name: Droid
   m_TagString: Droid
@@ -185,11 +187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   isHoldingSomething: 0
-  horizontalSpeed: 4
-  jumpForce: 250
-  _jumpState: 1
-  _inputMap: Droid
-  _inputActionAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _dieClip: {fileID: 8300000, guid: da613034b143db74999189545187b6dd, type: 3}
   _volume: 1
   _pitch: 1
@@ -309,17 +306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ea3908f79a4f54093a878b5e15fbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
-  _inputAction: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  _interactAction:
-    m_Name: Interact
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: f3706418-c143-487e-836f-2fa0566f1df2
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _searchRadius: 4
+  inputSource: {fileID: 0}
+  searchRadius: 1.5
 --- !u!95 &5945666717401259932
 Animator:
   serializedVersion: 7
@@ -342,3 +330,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4496584655498686006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2287705645492855031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c51b07abfa39e448d7ccb611845ab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  inputSource: {fileID: 0}
+  moveSpeed: 4
+--- !u!114 &1983998233292342228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2287705645492855031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e609779de54fbd34c87f4507fc72aa2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
+  playerMovement: {fileID: 0}

@@ -240,11 +240,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.82063
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.22877
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4839,7 +4839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da921378e9fb5384cb9c3ac8fa6ea80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSource: {fileID: 0}
+  inputSource: {fileID: 995402503}
   _animatorTelaConfiguracoes: {fileID: 0}
   pauseMenu: {fileID: 219389095}
 --- !u!114 &1858949594
