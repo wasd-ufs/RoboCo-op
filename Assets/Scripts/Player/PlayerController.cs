@@ -34,7 +34,13 @@ public class PlayerController : MonoBehaviour
     [Header("Audio morte player")]
     [SerializeField] private AudioClip _dieClip;
     [SerializeField] private float _volume, _pitch;
-    
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+    }
+
     private void OnEnable()
     {
         ChangeAnimation("idle_" + _posfix);
@@ -138,11 +144,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Gerencia as acoes que irao acontecer na morte do player 
     /// </summary>
-    public void Die()
-    {
-        // Desativa os controles de input
-        _inputActionAsset.FindActionMap(_inputMap).Disable();
-
+    
     // ===============================
     // DEATH
     // ===============================

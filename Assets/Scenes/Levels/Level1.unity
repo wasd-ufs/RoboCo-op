@@ -226,6 +226,63 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1001 &49899318
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1928606187}
+    m_Modifications:
+    - target: {fileID: 1829620824788668603, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_Name
+      value: InputManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.82063
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.22877
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
 --- !u!1 &59283137
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,6 +2270,22 @@ PrefabInstance:
       addedObject: {fileID: 630590160}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21bd2f5ecef21254ba18eed752aae44f, type: 3}
+--- !u!4 &995402502 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3872983837537652315, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+  m_PrefabInstance: {fileID: 49899318}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &995402503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8713567595422102113, guid: 6a4659a8813da964c92dbf93440fb7f5, type: 3}
+  m_PrefabInstance: {fileID: 49899318}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6305dad441a72984d8799c89719b5e5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
 --- !u!1 &1011994905
 GameObject:
   m_ObjectHideFlags: 0
@@ -3108,6 +3181,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1420563749}
     m_Modifications:
+    - target: {fileID: 376456258163462600, guid: 78488db6bddccb04aa579f57a4e0139b, type: 3}
+      propertyPath: input
+      value: 
+      objectReference: {fileID: 995402503}
     - target: {fileID: 1930082543179578913, guid: 78488db6bddccb04aa579f57a4e0139b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
@@ -4762,6 +4839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da921378e9fb5384cb9c3ac8fa6ea80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSource: {fileID: 0}
   _animatorTelaConfiguracoes: {fileID: 0}
   pauseMenu: {fileID: 219389095}
 --- !u!114 &1858949594
@@ -4876,6 +4954,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 995402502}
   - {fileID: 956896851}
   - {fileID: 1718206721}
   m_Father: {fileID: 0}
