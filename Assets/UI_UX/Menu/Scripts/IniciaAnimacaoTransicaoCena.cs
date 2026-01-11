@@ -88,7 +88,7 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
         
         int triggerHash = Animator.StringToHash(nomeAnimacao);
         _animacaoTransicaoCenaNoTempo.SetTrigger(triggerHash);
-        GameManagerr.instance.TrocarMundo(mundoId);
+        GameManager.instance.TrocarMundo(mundoId);
         yield return new WaitForSeconds(_tempoTransicaoMundos);
     }
 }

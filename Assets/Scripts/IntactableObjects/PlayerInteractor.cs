@@ -13,11 +13,11 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Awake()
     {
-        input = inputSource as IPlayerInput;
-        if (input == null)
-        {
-            Debug.LogError("PlayerInteractor: inputSource não implementa IPlayerInput");
-            enabled = false;
+        if (inputSource != null)
+            input = inputSource as IPlayerInput;
+        else {
+            var tmp = GameObject.FindGameObjectWithTag("InputManager");
+            input = tmp.GetComponent<InputHandler>();
         }
     }
 

@@ -9,6 +9,7 @@ TagManager:
   - Human
   - CameraMundoHumano
   - CameraMundoDroid
+  - InputManager
   layers:
   - Default
   - TransparentFX

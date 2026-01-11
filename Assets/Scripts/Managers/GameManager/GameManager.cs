@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Responsavel por controlar eventos do jogo
 /// </summary>
-public class GameManagerr : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GameManagerr instance { private set; get;}
+    public static GameManager instance { private set; get;}
     [SerializeField] private GameObject _cameraMundoHumano;
     [SerializeField] private GameObject _cameraMundoRobo;
     [SerializeField] private GameObject _playerHumano;
