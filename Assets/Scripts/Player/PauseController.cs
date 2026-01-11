@@ -53,7 +53,7 @@ public class PauseController : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
-        IniciaAnimacaoTransicaoCena.IniciarTransicao("Start", 0);
+        IniciaAnimacaoTransicaoCena.Instancia.IniciarTransicao("Start", 0);
     }
     public void Resume()
     {

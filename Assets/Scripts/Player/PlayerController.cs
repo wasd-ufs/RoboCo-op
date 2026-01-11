@@ -30,15 +30,12 @@ public class PlayerController : MonoBehaviour
 
     private string _currentAnimation = "";
     private string _posfix;
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
-        _posfix = gameObject.tag;
-    }
-
-    private void Start()
+    
+    [Header("Audio morte player")]
+    [SerializeField] private AudioClip _dieClip;
+    [SerializeField] private float _volume, _pitch;
+    
+    private void OnEnable()
     {
         ChangeAnimation("idle_" + _posfix);
     }
@@ -137,6 +134,14 @@ public class PlayerController : MonoBehaviour
         _currentAnimation = animationName;
         _animator.CrossFade(animationName, crossfade);
     }
+    
+    /// <summary>
+    /// Gerencia as acoes que irao acontecer na morte do player 
+    /// </summary>
+    public void Die()
+    {
+        // Desativa os controles de input
+        _inputActionAsset.FindActionMap(_inputMap).Disable();
 
     // ===============================
     // DEATH
@@ -146,13 +151,9 @@ public class PlayerController : MonoBehaviour
         enabled = false;          // para o player
         _rigidbody.linearVelocity = Vector2.zero;
         _rigidbody.isKinematic = true;
-
-        StartCoroutine(DeathRoutine());
-    }
-
-    private IEnumerator DeathRoutine()
-    {
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
+        int indexScene = SceneManager.GetActiveScene().buildIndex;
+        AudioManager.instance.PlayAudio(_dieClip,_volume,_pitch);
+        IniciaAnimacaoTransicaoCena.Instancia.IniciarTransicao("Start",indexScene,1.5f);
     }
 }

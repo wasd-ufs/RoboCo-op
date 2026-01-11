@@ -13,7 +13,7 @@ public class Desk : MonoBehaviour
     {
         if (other.CompareTag("Human"))
         {
-	        IniciaAnimacaoTransicaoCena.IniciarTransicao("Start", _nextScene);
+	        IniciaAnimacaoTransicaoCena.Instancia.IniciarTransicao("Start", _nextScene);
         }
     }
 }
