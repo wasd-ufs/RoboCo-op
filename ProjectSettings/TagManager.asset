@@ -7,6 +7,8 @@ TagManager:
   - Hurtbox
   - Droid
   - Human
+  - CameraMundoHumano
+  - CameraMundoDroid
   layers:
   - Default
   - TransparentFX
