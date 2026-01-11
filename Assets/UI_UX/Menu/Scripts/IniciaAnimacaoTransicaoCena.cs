@@ -31,9 +31,9 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
     /// <param name="numeroCena"></param>
     /// <return>void</return>
     /// <author>Wallisson de jesus</author>
-    public void IniciarTransicao(string nomeAnimacao, int numeroCena)
+    public void IniciarTransicao(string nomeAnimacao, int numeroCena,float tempoTransicaoCustom = 0)
     {
-        Instancia.StartCoroutine(Instancia.Transition(nomeAnimacao, numeroCena));
+        Instancia.StartCoroutine(Instancia.Transition(nomeAnimacao, numeroCena,tempoTransicaoCustom));
     }
 
 
@@ -56,9 +56,9 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
     /// <param name="numeroCena"></param>
     /// <returns>IEnumerator</returns>
     /// <author>Wallisson de jesus</author>
-    private IEnumerator Transition(string nomeAnimacao, int numeroCena)
+    private IEnumerator Transition(string nomeAnimacao, int numeroCena,float tempoTransicaoCustom = 0)
     {
-        if (_animacaoTransicao == null && _animacaoTransicaoCenaNoTempo == null)
+        if (_animacaoTransicao == null)
         {
             Debug.LogError("Animator de transição não atribuído!");
             yield break;
@@ -66,7 +66,7 @@ public class IniciaAnimacaoTransicaoCena : MonoBehaviour
         
         int triggerHash = Animator.StringToHash(nomeAnimacao);
         _animacaoTransicao.SetTrigger(triggerHash);    
-        yield return new WaitForSeconds(_tempoTransicao);
+        yield return new WaitForSeconds(tempoTransicaoCustom != 0 ? tempoTransicaoCustom : _tempoTransicao);
         CarregaCena.CarregarCena(numeroCena);
     }
     

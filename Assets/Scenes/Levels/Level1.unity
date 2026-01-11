@@ -1967,6 +1967,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2261001141129533390, guid: 5bbcda8a03845cb4caf8ae6d73faccba, type: 3}
+      propertyPath: _animacaoTransicao
+      value: 
+      objectReference: {fileID: 1718206722}
+    - target: {fileID: 2261001141129533390, guid: 5bbcda8a03845cb4caf8ae6d73faccba, type: 3}
       propertyPath: _tempoTransicaoMundos
       value: 0.8
       objectReference: {fileID: 0}
@@ -3800,6 +3804,11 @@ PrefabInstance:
 --- !u!224 &1718206721 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7919506292857549516, guid: e91cfd0ff8463bd4b8ebbeb77fc040e9, type: 3}
+  m_PrefabInstance: {fileID: 1718206720}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1718206722 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4005374598612571044, guid: e91cfd0ff8463bd4b8ebbeb77fc040e9, type: 3}
   m_PrefabInstance: {fileID: 1718206720}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1747662747
